@@ -1,0 +1,27 @@
+<h1>Task Manager</h1>
+
+<div>
+  <h2>New Task</h2>
+  <%= render 'form', task: @task %>
+</div>
+
+<div>
+  <h2>Task List</h2>
+
+  <%= search_form_for @q, url: tasks_path, method: :get, local: true do |f| %>
+    <%= f.select :status_eq, options_for_select(['All'] + Task.statuses.keys.map(&:humanize), params.dig(:q, :status_eq)), prompt: 'Filter by status' %>
+    <%= f.submit 'Filter' %>
+  <% end %>
+
+  <ul>
+    <% @tasks.each do |task| %>
+      <li>
+        <strong>Title:</strong> <%= task.title %> |
+        <strong>Description:</strong> <%= task.description %> |
+        <strong>Status:</strong> <%= task.status.humanize %> |
+        <%= link_to 'Edit', edit_task_path(task) %>
+        <%= button_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </li>
+    <% end %>
+  </ul>
+</div>
