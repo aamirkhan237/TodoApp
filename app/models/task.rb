@@ -3,10 +3,16 @@ class Task < ApplicationRecord
 
     validates :title, :description , presence: true
 
-    ransacker :status, formatter: proc { |v| statuses[v] } do |parent|
-    parent.table[:status]
-  end
-  def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "description", "id", "id_value", "status", "title", "updated_at"]
-  end
+#     ransacker :status, formatter: proc { |v| statuses[v] } do |parent|
+#     parent.table[:status]
+#   end
+scope :to_do,       -> { where(status: :to_do) }
+scope :in_progress, -> { where(status: :in_progress) }
+scope :done,        -> { where(status: :done) }
+
+scope :filter_by_status, -> (status) do
+  send(status) if statuses.key?(status)
+end
+
+
 end
