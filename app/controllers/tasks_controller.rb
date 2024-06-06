@@ -1,21 +1,21 @@
 class TasksController < ApplicationController
+    before_action :authenticate_user!
     def index
         @task = Task.new
-        @tasks = Task.all
+        @tasks = current_user.tasks
         @tasks = @tasks.filter_by_status(params[:status]) if params[:status].present? 
-
     end
     def show
       @task = Task.find(params[:id])
     end
   
     def create
-      @task = Task.new(task_params)
+        @task= Task.new(task_params)
+        @task.user = current_user
+    # @task = current_user.tasks.build(task_params)
       if @task.save
         redirect_to @task, notice: 'Task was successfully created.'
       else
-        # @q = Task.ransack(params[:q])
-        # @tasks = @q.result(distinct: true)
         @tasks = Task.all
         render :index
       end
@@ -39,7 +39,16 @@ class TasksController < ApplicationController
       @task.destroy
       redirect_to tasks_path, notice: 'Task was successfully deleted.'
     end
-  
+
+    def update_status
+        @task = Task.find(params[:id])
+        if @task.update(status: params[:status])
+          redirect_to tasks_path(status: params[:status]), notice: 'Task status updated successfully.'
+        else
+          redirect_to tasks_path(status: params[:status]), alert: 'Failed to update task status.'
+        end
+      end
+    
     private
   
     def task_params

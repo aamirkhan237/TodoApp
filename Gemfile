@@ -68,4 +68,9 @@ end
 
 gem 'ransack'
 
+gem "devise", "~> 4.9"
 
+gem 'bootstrap'
+gem 'sassc-rails'
+gem 'hotwire-rails'
+gem 'jquery-rails', '~> 4.4'
