@@ -1,33 +1,56 @@
-<h1>Task Manager</h1>
+<%= render 'nav' %>
 
-<div>
-  <h2>New Task</h2>
-  <%= render 'form', task: @task %>
-</div>
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card">
+          <div class="card-body p-5">
+            <%= render 'form', task: @task %>
 
-<div>
-  <h2>Task List</h2>
+            <!-- Tabs navs -->
+            <ul class="nav nav-tabs mb-4 pb-2" id="ex1" role="tablist">
+              <li class="nav-item" role="presentation">
+                <%= link_to "All", tasks_path, class: "nav-link #{params[:status].blank? ? 'active' : ''}" %>
+              </li>
+              <% Task.statuses.keys.each do |status| %>
+                <li class="nav-item" role="presentation">
+                  <%= link_to status.humanize, tasks_path(status: status), class: "nav-link #{params[:status] == status ? 'active' : ''}" %>
+                </li>
+              <% end %>
+            </ul>
+            <!-- Tabs navs -->
 
-<ul class="tabs-bar">
-    <li class="tabs-bar__item">
-      <%= link_to "All", tasks_path %>
-    </li>
-    <% tasks_filtered_by_status.each do |status| %>
-      <li class="tabs-bar__item">
-        <%= link_to status.humanize, tasks_path(status: status) %>
-      </li>
-    <% end %>
-  </ul>
-
-  <ul>
-    <% @tasks.each do |task| %>
-      <li>
-        <strong>Title:</strong> <%= task.title %> |
-        <strong>Description:</strong> <%= task.description %> |
-        <strong>Status:</strong> <%= task.status.humanize %> |
-        <%= link_to 'Edit', edit_task_path(task) %>
-        <%= button_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+            <!-- Tabs content -->
+            <div class="tab-content" id="ex1-content">
+              <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                <ul class="list-group mb-0">
+                  <% @tasks.each do |task| %>
+                    <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded" style="background-color: #f4f6f7;">
+                      <%= task.title %>
+                      <div class="ms-auto d-flex">
+                        <% if params[:status].blank? %>
+                          <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-sm btn-secondary me-2' %>
+                          <%= button_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                        <% else %>
+                          <% if task.status == 'to_do' %>
+                            <%= button_to 'Active', update_status_task_path(task, status: 'in_progress'), method: :patch, class: 'btn btn-sm btn-info me-2' %>
+                            <%= button_to 'Done', update_status_task_path(task, status: 'done'), method: :patch, class: 'btn btn-sm btn-success me-2' %>
+                          <% elsif task.status == 'in_progress' %>
+                            <%= button_to 'Done', update_status_task_path(task, status: 'done'), method: :patch, class: 'btn btn-sm btn-success me-2' %>
+                          <% end %>
+                          <%= button_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                        <% end %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+            <!-- Tabs content -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

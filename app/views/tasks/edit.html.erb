@@ -1,3 +1,20 @@
 <h1>Edit Task</h1>
-<%= render 'form', task: @task %>
-<%= link_to 'Back', tasks_path %>
+<%= form_with model: @task, local: true do |form| %>
+  <div class="form-outline mb-4">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+  <div class="form-outline mb-4">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control" %>
+  </div>
+  <div class="form-outline mb-4">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, Task.statuses.keys.map { |status| [status.humanize, status] }, {}, class: "form-control" %>
+  </div>
+  <div>
+    <%= form.submit 'Save Task', class: "btn btn-primary" %>
+  </div>
+<% end %>
+<%= link_to 'Back', tasks_path, class: "btn btn-secondary mt-2" %>
+
