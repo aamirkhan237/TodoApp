@@ -8,10 +8,16 @@
 <div>
   <h2>Task List</h2>
 
-  <%= search_form_for @q, url: tasks_path, method: :get, local: true do |f| %>
-    <%= f.select :status_eq, options_for_select(['All'] + Task.statuses.keys.map(&:humanize), params.dig(:q, :status_eq)), prompt: 'Filter by status' %>
-    <%= f.submit 'Filter' %>
-  <% end %>
+<ul class="tabs-bar">
+    <li class="tabs-bar__item">
+      <%= link_to "All", tasks_path %>
+    </li>
+    <% tasks_filtered_by_status.each do |status| %>
+      <li class="tabs-bar__item">
+        <%= link_to status.humanize, tasks_path(status: status) %>
+      </li>
+    <% end %>
+  </ul>
 
   <ul>
     <% @tasks.each do |task| %>

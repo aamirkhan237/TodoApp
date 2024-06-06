@@ -1,37 +1,22 @@
 class TasksController < ApplicationController
     def index
         @task = Task.new
-        
-        # @tasks = if params[:status].present?  && params[:status] != 'All'
-        #         Task.where(status: params[:status])
-        #        else
-        #          Task.all
-        #        end
-        @q = Task.ransack(params[:q])
-        if params[:q] && params[:q][:status_eq] == 'All'
-            @tasks = Task.all
-        else
-            @tasks = @q.result(distinct: true)
-          end
-        # @q = Task.ransack(params[:q])
-        # @tasks = @q.result(distinct: true)
+        @tasks = Task.all
+        @tasks = @tasks.filter_by_status(params[:status]) if params[:status].present? 
+
     end
     def show
       @task = Task.find(params[:id])
     end
-  
-    # def new
-    #   @task = Task.new
-    # end
   
     def create
       @task = Task.new(task_params)
       if @task.save
         redirect_to @task, notice: 'Task was successfully created.'
       else
-        @q = Task.ransack(params[:q])
-        @tasks = @q.result(distinct: true)
-        # @tasks = Task.all
+        # @q = Task.ransack(params[:q])
+        # @tasks = @q.result(distinct: true)
+        @tasks = Task.all
         render :index
       end
     end
