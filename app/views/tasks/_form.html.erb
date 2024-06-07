@@ -1,12 +1,21 @@
 <%= form_with model: @task, local: true, html: { class: "mb-4" } do |form| %>
-  <div class="d-flex justify-content-center align-items-center mb-4">
-    <div class="form-outline flex-fill me-3">
-      <%= form.text_field :title, class: "form-control", id: "form2", placeholder: "Title" %>
-    </div>
-    <div class="form-outline flex-fill me-3">
-      <%= form.text_area :description, class: "form-control mt-4", id: "form3", placeholder: "Description" %>
-    </div>
-    <%= form.hidden_field :status, value: "to_do" %>
-    <%= form.submit 'Add', class: "btn btn-info mt-3 btn-lg" %>
-  </div>
-<% end %>
+        <% if @task.errors.any? %>
+            <div class="alert alert-danger">
+            <h4 class="alert-heading">Error(s) occurred:</h4>
+            <ul>
+                <% @task.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+            </div>
+        <% end %>
+        <div class="d-flex justify-content-center align-items-center mb-4">
+            <div class="form-outline flex-fill me-3">
+            <%= form.text_field :title, class: "form-control", id: "form2", placeholder: "Title" %>
+            </div>
+            <div class="form-outline flex-fill me-3">
+            <%= form.text_area :description, class: "form-control mt-4", id: "form3", placeholder: "Description" %>
+            </div>
+            <%= form.submit 'Add', class: "btn btn-info mt-3 btn-lg" %>
+        </div>
+        <% end %>
