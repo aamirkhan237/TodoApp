@@ -1,7 +1,8 @@
 class Task < ApplicationRecord
     belongs_to :user
     enum status: [ :to_do, :in_progress , :done ]
-    validates :title, :description , presence: true
+    validates :title, :description, :status, presence: true
+
 
 scope :to_do,       -> { where(status: :to_do) }
 scope :in_progress, -> { where(status: :in_progress) }
