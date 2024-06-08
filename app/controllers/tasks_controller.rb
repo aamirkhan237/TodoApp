@@ -2,8 +2,8 @@ class TasksController < ApplicationController
     before_action :authenticate_user!
     def index
         @task = Task.new
-        @tasks = current_user.tasks
-        @tasks = @tasks.filter_by_status(params[:status]) if params[:status].present? 
+        @pagy, @tasks = pagy(current_user.tasks)
+        @tasks = @tasks.filter_by_status(params[:status]) if params[:status].present?
     end
     def show
       @task = Task.find(params[:id])
