@@ -76,3 +76,12 @@ gem 'hotwire-rails'
 gem 'jquery-rails', '~> 4.4'
 gem 'pagy', '~> 8.4'
 gem 'image_processing', '~> 1.2'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 6.1.0'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '~> 6.0'
+  gem 'rails-controller-testing'
+end
+
+gem 'faker'

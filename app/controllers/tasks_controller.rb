@@ -13,7 +13,7 @@ class TasksController < ApplicationController
         @task= Task.new(task_params)
         @task.user = current_user
       if @task.save
-        redirect_to @task, notice: 'Task was successfully created.'
+        redirect_to tasks_path, notice: 'Task was successfully created.'
       else
         @tasks = current_user.tasks
         render :index ,status: :unprocessable_entity 
