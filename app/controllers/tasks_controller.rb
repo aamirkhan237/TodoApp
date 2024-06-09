@@ -1,12 +1,12 @@
 class TasksController < ApplicationController
     before_action :authenticate_user!
+    before_action :set_task , only: [:show, :edit, :update,:destroy,:update_status]
     def index
         @task = Task.new
         @pagy, @tasks = pagy(current_user.tasks)
         @tasks = @tasks.filter_by_status(params[:status]) if params[:status].present?
     end
     def show
-      @task = Task.find(params[:id])
     end
   
     def create
@@ -21,13 +21,10 @@ class TasksController < ApplicationController
     end
   
     def edit
-      @task = Task.find(params[:id])
     end
   
     def update
-      @task = Task.find(params[:id])
       if @task.update(task_params)
-        # redirect_to @task, notice: 'Task was successfully updated.'
         redirect_to tasks_path, notice: 'Task was successfully created.'
       else
         render :edit, status: :unprocessable_entity 
@@ -35,13 +32,11 @@ class TasksController < ApplicationController
     end
   
     def destroy
-      @task = Task.find(params[:id])
       @task.destroy
       redirect_to tasks_path, notice: 'Task was successfully deleted.'
     end
 
     def update_status
-        @task = Task.find(params[:id])
         if @task.update(status: params[:status])
           redirect_to tasks_path(status: params[:status]), notice: 'Task status updated successfully.'
         else
@@ -50,7 +45,9 @@ class TasksController < ApplicationController
       end
     
     private
-  
+      def set_task
+        @task =Task.find(params[:id])
+      end
     def task_params
       params.require(:task).permit(:title, :description, :status)
     end
