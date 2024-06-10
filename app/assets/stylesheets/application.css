@@ -13,4 +13,38 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap";
 
+ body {
+  background: linear-gradient(to right, #f2f2f2, #de9191);
+}
+
+.gradient-custom {
+  background: linear-gradient(to right, #f2f2f2, #de9191);
+}
+
+.navbar {
+  box-shadow: 0 4px 6px rgba(231, 169, 211, 0.1);
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-body {
+  background: #fff;
+  border-radius: 10px;
+}
+
+.list-group-item {
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+}
+
+
+  
+  
