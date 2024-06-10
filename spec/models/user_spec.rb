@@ -23,5 +23,21 @@ RSpec.describe User, type: :model do
       expect{user1.save!}.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  describe 'dependent: :destroy' do
+    let!(:user) { create(:user) }
+    let!(:task1) { create(:task, user: user) }
+    let!(:task2) { create(:task, user: user) }
+
+    it 'destroys associated tasks when user is destroyed' do
+      # debugger
+      expect(Task.count).to eq(2)
+      expect { user.destroy }.to change{ Task.count}.by(-2)
+      user.destroy
+      expect(Task.count).to eq(0)
+      expect(user.tasks.count).to eq(0)
+      # debugger
+    end
+  end
   
 end
