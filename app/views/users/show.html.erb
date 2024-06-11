@@ -3,9 +3,9 @@
     <div class="card-body">
       <h5 class="card-title text-center">Profile Information</h5>
        <% if @user.avatar.attached? %>
-        <%= image_tag @user.avatar, class: "img-thumbnail mb-3" %>
+      <%= image_tag @user.avatar, class: "img-thumbnail mb-3", style: "width:150px;height:150px;" %>
       <% else %>
-        <%= image_tag "profile_pic.webp", class: "img-thumbnail mb-3"  %>
+        <%= image_tag "profile_pic.webp", class: "img-thumbnail mb-3  mx-auto"  %>
       <% end %>
       <p class="card-text"><strong>First Name:</strong> <%= @user.first_name %></p>
       <p class="card-text"><strong>Last Name:</strong> <%= @user.last_name %></p>

@@ -24,16 +24,16 @@
 }
 
 .navbar {
-  box-shadow: 0 4px 6px rgba(231, 169, 211, 0.1);
+  box-shadow: 0 4px 6px rgba(167, 87, 141, 0.1);
 }
 
 .card {
   border: none;
-  border-radius: 10px;
+  border-radius:10px;
 }
 
 .card-body {
-  background: #fff;
+  background: #cddff0;
   border-radius: 10px;
 }
 
@@ -45,6 +45,9 @@
   background-color: #e9ecef;
 }
 
-
+.card-body img {
+  margin: auto;
+  display: block;
+}
   
   
