@@ -1,6 +1,6 @@
 class Api::V1::TasksController < ApiController
     before_action :set_task, only: [:show, :update, :destroy, :update_status]
-
+    # skip_before_action :verify_authenticity_token
     def index
         @tasks = current_user.tasks.filter_by_status(params[:status])
         render json: @tasks
@@ -42,6 +42,8 @@ class Api::V1::TasksController < ApiController
     private
     def set_task
         @task = current_user.tasks.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => error
+        render json:error.message , status: :unauthorized
     end
 
     def task_params

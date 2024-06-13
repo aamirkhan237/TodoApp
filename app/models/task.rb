@@ -12,4 +12,6 @@ scope :filter_by_status, -> (status) do
   send(status) if statuses.key?(status)
 end
 
+
+
 end
