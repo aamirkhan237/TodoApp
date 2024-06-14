@@ -1,6 +1,6 @@
 class Api::V1::TasksController < ApiController
     before_action :set_task, only: [:show, :update, :destroy, :update_status]
-    # skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
     def index
         @tasks = current_user.tasks.filter_by_status(params[:status])
         render json: @tasks

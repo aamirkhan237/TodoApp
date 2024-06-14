@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  # respond_to :json
+  respond_to :json, :html
+  skip_before_action :verify_authenticity_token
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -58,4 +59,41 @@ class Users::SessionsController < Devise::SessionsController
   #     }, status: :unauthorized
   #   end
   # end
+  private
+  def respond_with(resource, _options = {})
+    respond_to do |format|
+      format.html { super }
+      format.json do
+        render json: {
+          status: { code: 200, message: 'Logged in successfully.' },
+          data: resource
+        }, status: :ok
+      end
+    end
+  end
+
+  def respond_to_on_destroy
+    respond_to do |format|
+      format.html { super }
+      format.json do
+        if request.headers['Authorization'].present?
+          jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.credentials.fetch(:secret_key_base)).first
+          resource = User.find(jwt_payload['sub'])
+        end
+
+        if resource
+          render json: {
+            status: 200,
+            message: 'Logged out successfully.'
+          }, status: :ok
+        else
+          render json: {
+            status: 401,
+            message: "Couldn't find an active session."
+          }, status: :unauthorized
+        end
+      end
+    end
+  end
 end
+
