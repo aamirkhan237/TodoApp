@@ -1,6 +1,7 @@
 class Api::V1::TasksController < ApiController
     before_action :set_task, only: [:show, :update, :destroy, :update_status]
     skip_before_action :verify_authenticity_token
+    before_action :authenticate_user!
     def index
         @tasks = current_user.tasks.filter_by_status(params[:status])
         render json: @tasks
@@ -41,12 +42,19 @@ class Api::V1::TasksController < ApiController
 
     private
     def set_task
-        @task = current_user.tasks.find(params[:id])
+        @task = Task.find(params[:id])
     rescue ActiveRecord::RecordNotFound => error
         render json:error.message , status: :unauthorized
     end
 
     def task_params
         params.require(:task).permit(:title, :description, :status)
+    end
+    def authenticate_user!
+      if user_signed_in?
+        super
+      else
+        redirect_to new_user_session_path, alert: 'You need to sign in before continuing.'
+      end
     end
 end

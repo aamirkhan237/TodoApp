@@ -3,7 +3,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  # respond_to :json
+  skip_before_action :verify_authenticity_token
+  respond_to :json, :html
 
   # GET /resource/sign_up
   # def new
@@ -65,19 +66,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-  # private
+  private
 
-  # def respond_with(current_user, _opts = {})
-  #   if resource.persisted?
-  #     render json: {
-  #       status: {code: 200, message: 'Signed up successfully.'},
-  #       data: current_user
-  #     }
-  #   else
-  #     render json: {
-  #       status: {message: "User couldn't be created successfully. #{current_user.errors.full_messages.to_sentence}"}
-  #     }, status: :unprocessable_entity
-  #   end
-  # end
+  def respond_with(resource, _opts = {})
+  if request.format.json?
+    if resource.persisted?
+      render json: {
+        status: {code: 200, message: 'Signed up successfully.'},
+        data: current_user
+      }
+    else
+      render json: {
+        status: {message: "User couldn't be created successfully. #{resource.errors.full_messages.to_sentence}"}
+      }, status: :unprocessable_entity
+    end
+  end
+  super
+  end
+  
 
 end

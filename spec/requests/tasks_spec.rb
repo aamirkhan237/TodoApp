@@ -11,10 +11,11 @@ RSpec.describe "Tasks", type: :request do
 #index 
   describe "GET /index" do
     context "when user is not logged in" do
-      it "redirects to the login page" do
+      it "gives warning sign in or sign up before continuing  " do
         sign_out user
         get tasks_path
-        expect(response).to redirect_to new_user_session_path
+        # expect(response).to redirect_to new_user_session_path
+        expect(response).to have_http_status(:unauthorized)
       end
     end
     it "returns http success" do
@@ -100,14 +101,14 @@ describe "PATCH /update" do
       # debugger
       patch update_status_task_path(task), params: { status: 'in_progress' }
       task.reload
-      debugger
+      # debugger
       expect(task.status).to eq('in_progress')
       expect(response).to redirect_to(tasks_path(status: 'in_progress'))
       
       patch update_status_task_path(task), params: { status: 'done' }
-      debugger
+      # debugger
       task.reload
-      debugger
+      # debugger
       expect(task.status).to eq('done')
       expect(response).to redirect_to(tasks_path(status: 'done'))
     end
