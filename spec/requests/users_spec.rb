@@ -7,7 +7,7 @@ RSpec.describe "Users", type: :request do
   before do
     sign_in user
   end
-
+#show
   describe "GET /show" do
     it "returns http success" do
       get user_path(user)

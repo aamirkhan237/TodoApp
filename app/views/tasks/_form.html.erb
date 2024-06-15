@@ -1,26 +1,33 @@
+<!-- Form for creating or editing a task -->
 <%= form_with model: @task, local: true, html: { class: "mb-4" } do |f| %>
-        <% if @task.errors.any? %>
-            <div class="alert alert-danger">
-            <h4 class="alert-heading">Error(s) occurred:</h4>
-            <ul>
-                <% @task.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-                <% end %>
-            </ul>
-            </div>
-        <% end %>
-        <div class="d-flex justify-content-center align-items-center mb-4">
-            <div class="form-outline flex-fill me-3">
-            <%= f.text_field :title, class: "form-control", id: "form2", placeholder: "Title" %>
-            </div>
-            <div class="form-outline flex-fill me-3">
-            <%= f.text_area :description, class: "form-control mt-4", id: "form3", placeholder: "Description" %>
-            </div>
 
-           <%= button_tag( :class => "btn btn-link mt-3 ", style: "font-size: 20px; color: darkcyan;") do %>
-            <i class="bi bi-plus-lg"></i>
-            <% end %>
-        </div>
-
-        
+  <!-- Display error messages if there are any -->
+  <% if @task.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading">Error(s) occurred:</h4>
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Form inputs -->
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="form-outline flex-fill me-3">
+      <!-- Title input field -->
+      <%= f.text_field :title, class: "form-control", id: "form2", placeholder: "Title" %>
+    </div>
+    <div class="form-outline flex-fill me-3">
+      <!-- Description input field -->
+      <%= f.text_area :description, class: "form-control mt-4", id: "form3", placeholder: "Description" %>
+    </div>
+
+    <!-- Submit button -->
+    <%= button_tag(class: "btn btn-link mt-3", style: "font-size: 20px; color: darkcyan;") do %>
+      <i class="bi bi-plus-lg"></i>
+    <% end %>
+  </div>
+
+<% end %>

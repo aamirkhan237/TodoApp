@@ -1,13 +1,16 @@
 <% if @task.errors.any? %>
-            <div class="alert alert-danger">
-            <h4 class="alert-heading">Error(s) occurred:</h4>
-            <ul>
-                <% @task.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-                <% end %>
-            </ul>
-            </div>
-        <% end %>
+  <!-- Display error messages if there are any -->
+  <div class="alert alert-danger">
+    <h4 class="alert-heading">Error(s) occurred:</h4>
+    <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <%= render 'form', task: @task %>
+
+<!-- Link to go back to tasks index page -->
 <%= link_to 'Back', tasks_path %>
