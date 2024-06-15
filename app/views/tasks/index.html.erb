@@ -1,5 +1,10 @@
+<!-- Stylesheet link from app/assets/stylesheets/index.scss -->
+<%= stylesheet_link_tag "index" %>
+
+<!-- Navigation bar from app/views/tasks/_nav.html.erb -->
 <%= render 'nav' %>
 
+<!-- Main section -->
 <section class="vh-100 gradient-custom">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -7,23 +12,28 @@
         <div class="card shadow-lg">
           <div class="card-body p-5">
 
+            <!-- Page title -->
             <h1 class="text-center mb-4">To-Do App</h1>
         
+            <!-- Task form from app/views/tasks/_form.html.erb -->
             <%= render 'form', task: @task %>
 
-            <!-- Tabs navs -->
+            <!-- Tabs navigation -->
             <ul class="nav nav-tabs mb-4 pb-2" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
+                <!-- Link to all tasks -->
                 <%= link_to "All", tasks_path, class: "nav-link #{params[:status].blank? ? 'active' : ''}" %>
               </li>
+              <!-- Links for each task status -->
               <% Task.statuses.keys.each do |status| %>
                 <li class="nav-item" role="presentation">
                   <%= link_to status.humanize, tasks_path(status: status), class: "nav-link #{params[:status] == status ? 'active' : ''}" %>
                 </li>
               <% end %>
             </ul>
-            <!-- Tabs navs -->
+            <!-- End of tabs navigation -->
           
+            <!-- Pagination -->
             <% if @pagy %>
               <%== pagy_bootstrap_nav(@pagy) %>
             <% end %>
@@ -32,13 +42,16 @@
             <div class="tab-content" id="ex1-content">
               <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1">
                 <ul class="list-group mb-0">
+                  <!-- List of tasks -->
                   <% @tasks.each do |task| %>
                     <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded shadow-sm" style="background-color: #f4f6f7;">
                       <%= task.title %>
                       <div class="ms-auto d-flex">
-                         <%= link_to task_path(task), class: 'btn btn-sm btn-primary me-2' do %>
+                        <!-- View task button -->
+                        <%= link_to task_path(task), class: 'btn btn-sm btn-primary me-2' do %>
                           <i class="bi bi-eye-fill"></i>
                         <% end %>
+                        <!-- Edit and delete buttons for all tasks view -->
                         <% if params[:status].blank? %>
                           <%= link_to edit_task_path(task), class: 'btn btn-sm btn-secondary me-2' do %>
                             <i class="bi bi-pencil"></i>
@@ -46,6 +59,7 @@
                           <%= button_to task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' do %>
                             <i class="bi bi-x-lg"></i>
                           <% end %>
+                        <!-- Status update and delete buttons for filtered tasks -->
                         <% else %>
                           <% if task.status == 'to_do' %>
                             <%= button_to update_status_task_path(task, status: 'in_progress'), method: :patch, class: 'btn btn-sm btn-info me-2' do %>
@@ -69,7 +83,7 @@
                 </ul>
               </div>
             </div>
-            <!-- Tabs content -->
+            <!-- End of tabs content -->
 
           </div>
         </div>
@@ -77,3 +91,6 @@
     </div>
   </div>
 </section>
+
+<!-- Footer from app/views/tasks/_footer.html.erb -->
+<%= render 'footer' %>

@@ -1,6 +1,5 @@
 require 'rails_helper'
 # spec/requests/tasks_spec.rb
-
 RSpec.describe "Tasks", type: :request do
   let(:user) { create(:user) }
   let(:task) { create(:task, user: user) }
@@ -11,13 +10,13 @@ RSpec.describe "Tasks", type: :request do
 #index 
   describe "GET /index" do
     context "when user is not logged in" do
-      it "gives warning sign in or sign up before continuing  " do
+      it "redirects to the login page" do
         sign_out user
         get tasks_path
-        # expect(response).to redirect_to new_user_session_path
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to redirect_to new_user_session_path
       end
     end
+
     it "returns http success" do
       get tasks_path
       expect(response).to have_http_status(:success)
@@ -94,7 +93,7 @@ describe "PATCH /update" do
       expect(response).to redirect_to(tasks_path)
     end
   end
-
+#patch
   describe "PATCH /update_status" do
 
     it "updates the status of the task" do

@@ -1,12 +1,20 @@
-<%= stylesheet_link_tag "navigation" %>
-<nav class="navbar navbar-expand navbar-light bg-light" >
+<!-- Navigation bar -->
+<nav class="navbar navbar-expand navbar-light bg-light">
   <div class="container">
-    <%= link_to "Task Manager", root_path, class: "navbar-brand" %>  
+
+    <!-- Brand logo or title -->
+    <%= link_to "Task Manager", root_path, class: "navbar-brand" %>
+
+    <!-- Collapsible navigation menu -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+
+        <!-- Check if user is signed in -->
         <% if user_signed_in? %>
+          <!-- Dropdown menu for user profile and logout -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <!-- Display user avatar or default profile picture -->
               <% if current_user.avatar.present? %>
                 <%= image_tag current_user.avatar, class: 'rounded-circle', width: '40', height: '40' %>
               <% else %>
@@ -20,6 +28,7 @@
             </ul>
           </li>
         <% else %>
+          <!-- Display links for login and sign up if user is not signed in -->
           <li class="nav-item">
             <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>
           </li>
@@ -27,7 +36,9 @@
             <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
           </li>
         <% end %>
+
       </ul>
     </div>
+
   </div>
 </nav>
