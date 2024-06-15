@@ -4,12 +4,12 @@
   * git clone https://github.com/aamirkhan237/TodoApp.git
   * cd TodosApp
  
-# Setup Database Migration
-  * Update the database.yml according to your database configuration
-  * goto TodosApp/config/database.yml
-  * rails db:create
-  * rails db:migrate
-  * rails s
+    ### Setup Database Migration
+      * Update the database.yml according to your database configuration
+      * goto TodosApp/config/database.yml
+      * rails db:create
+      * rails db:migrate
+      * rails s
 
 **Ruby version**
   ruby 3.3.0 (2023-12-25 revision 5124f9ac75) [x86_64-darwin21]
