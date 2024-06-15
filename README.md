@@ -25,9 +25,9 @@
   
   ### How to run the test suite
   * To run all test : cd TodosApp > rspec
-  * To run all **Model** test: rspec rspec spec/models
+  * To run all **Model** test: rspec  spec/models
   * To run Specific Model test: rspec spec/models/[your_file]
-  * To run all **Controller** test: rspec rspec spec/requests
+  * To run all **Controller** test: rspec  spec/requests
   * To run Specific Controller test: rspec spec/requests/[your_file]
   * Services (job queues, cache servers, search engines, etc.)
 
